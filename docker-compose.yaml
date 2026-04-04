@@ -1,19 +1,19 @@
 networks:
-  my-network: {}
+  mynetwork: {}
 volumes:
   mysql:
 services:
     mysql:
        image: mysql:1.0.0
        networks:
-         - my-network
+         - mynetwork
        volumes:
             - mysql:/var/lib/mysql
 
     backend:
      image: backend:1.0.0
      networks:
-       - my-network
+       - mynetwork
      container_name: backend
      depends_on:
        - mysql
@@ -21,7 +21,7 @@ services:
     frontend:
       image: frontend:1.0.0
       networks:
-        - my-network
+        - mynetwork
       container_name: frontend
       ports:
         - "80:80"
