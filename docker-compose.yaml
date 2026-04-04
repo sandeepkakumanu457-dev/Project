@@ -1,29 +1,38 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:1.0.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ExpenseApp@1
+    networks:
+      - mynetwork
+    volumes:
+      - mysql:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  backend:
+    image: backend:1.0.0
+    container_name: backend
+    networks:
+      - mynetwork
+    depends_on:
+      - mysql
+
+  frontend:
+    image: frontend:1.0.0
+    container_name: frontend
+    networks:
+      - mynetwork
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
 networks:
-  mynetwork: {}
+  mynetwork:
+
 volumes:
   mysql:
-services:
-    mysql:
-       image: mysql:1.0.0
-       networks:
-         - mynetwork
-       volumes:
-            - mysql:/var/lib/mysql
-
-    backend:
-     image: backend:1.0.0
-     networks:
-       - mynetwork
-     container_name: backend
-     depends_on:
-       - mysql
-
-    frontend:
-      image: frontend:1.0.0
-      networks:
-        - mynetwork
-      container_name: frontend
-      ports:
-        - "80:80"
-      depends_on:
-        - backend
